@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { Box, Typography } from '@mui/material';
-import { ShopLayout } from 'components/components/layouts';
+import { ShopLayout } from '@components/layouts';
+
 
 const Custom404: NextPage = () => {
   return (
