@@ -4,221 +4,153 @@ import { SeedData } from "./products.types";
 export const initialData: SeedData = {
   products: [
     {
+      category: 'pulpa',
       description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1740176-00-A_0_2000.jpg',
-        '1740176-00-A_1.jpg',
-      ],
+      flavor: 'original',
+      images: ['pulpa-sobre-original.jpg', 'pulpa-original.jpg',],
       inStock: 456,
+      netWt: 240,
+      pieces: 12,
       price: 59,
       slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
+      tags: ['pulpa', 'original', 'sin chile', '20g'],
       title: "Pulpa Original (sin chile)",
-      category: {
-        name: "pulpa",
-        flavor: 'original',
-        netWt: '20'
-      }
-
     },
     {
+      category: 'pulpa',
       description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1740507-00-A_0_2000.jpg',
-        '1740507-00-A_1.jpg',
-      ],
+      flavor: 'picosito',
+      images: ['pulpa-sobre-picosito.jpg', 'pulpa-picosito.jpg',],
       inStock: 456,
+      netWt: 240,
+      pieces: 12,
       price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "pulpa",
-        flavor: 'picosito',
-        netWt: '20'
-      }
-
-    },
-
-    {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1740250-00-A_0_2000.jpg',
-        '1740250-00-A_1.jpg'
-      ],
-      inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "pulpa",
-        flavor: 'fuego',
-        netWt: '20'
-      }
-
-    },
-
-    {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1740280-00-A_0_2000.jpg',
-        '1740280-00-A_1.jpg',
-      ],
-      inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "bites",
-        flavor: 'original',
-        netWt: '50'
-      }
-
+      slug: "pulpa_picosito_20g",
+      tags: ['pulpa', 'picosito', 'enchilado', '20g'],
+      title: "Pulpa Picosita",
     },
     {
+      category: 'pulpa',
       description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1741416-00-A_0_2000.jpg',
-        '1741416-00-A_1.jpg',
-      ],
+      flavor: 'fuego',
+      images: ['pulpa-sobre-fuego.jpg', 'pulpa-fuego.jpg',],
       inStock: 456,
+      netWt: 240,
+      pieces: 12,
       price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "bites",
-        flavor: 'picosito',
-        netWt: '50'
-      }
-
+      slug: "pulpa_fuego_20g",
+      tags: ['pulpa', 'fuego', 'enchilado', '20g'],
+      title: "Pulpa Fuego",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '7654393-00-A_2_2000.jpg',
-        '7654393-00-A_3.jpg',
-      ],
+      category: 'bites',
+      description: '<span>Contenido 1 bolsita de 50 gramos.</span>',
+      flavor: 'original',
+      images: ['bites-bolsita-original.jpg', 'bites-original.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "bites",
-        flavor: 'fuego',
-        netWt: '50'
-      }
-
+      netWt: 50,
+      price: 19,
+      slug: "bites_original_50g",
+      tags: ['bites', 'original', 'sin chile', '50g'],
+      title: "Bites Original",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1703767-00-A_0_2000.jpg',
-        '1703767-00-A_1.jpg',
-      ],
+      category: 'bites',
+      description: '<span>Contenido 1 bolsita de 50 gramos.</span>',
+      flavor: 'picosito',
+      images: ['bites-bolsita-picosito.jpg', 'bites-picosito.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "bites",
-        flavor: 'original',
-        netWt: '300'
-      }
-
+      netWt: 50,
+      price: 19,
+      slug: "bites_picosito_50g",
+      tags: ['bites', 'picosito', 'enchilado', '50g'],
+      title: "Bites Picosito",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1700280-00-A_0_2000.jpg',
-        '1700280-00-A_1.jpg',
-      ],
+      category: 'bites',
+      description: '<span>Contenido 1 bolsita de 50 gramos.</span>',
+      flavor: 'fuego',
+      images: ['bites-bolsita-fuego.jpg', 'bites-fuego.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "bites",
-        flavor: 'picosito',
-        netWt: '300'
-      }
-
+      netWt: 50,
+      price: 19,
+      slug: "bites_fuego_50g",
+      tags: ['bites', 'fuego', 'enchilado', '50g'],
+      title: "Bites Fuego",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '8764734-00-A_0_2000.jpg',
-        '8764734-00-A_1.jpg',
-      ],
+      category: 'bites',
+      description: '<span>Contenido 1 bowl de 300 gramos.</span>',
+      flavor: 'original',
+      images: ['bites-bowl-original.jpg', 'bites-original.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "bites",
-        flavor: 'fuego',
-        netWt: '300'
-      }
-
+      netWt: 300,
+      price: 73,
+      slug: "bites_original_300g",
+      tags: ['bites', 'original', 'sin chile', '300g'],
+      title: "Bites Original",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '7652426-00-A_0_2000.jpg',
-        '7652426-00-A_1.jpg',
-      ],
+      category: 'bites',
+      description: '<span>Contenido 1 bowl de 300 gramos.</span>',
+      flavor: 'picosito',
+      images: ['bites-bowl-picosito.jpg', 'bites-picosito.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "piquin",
-        flavor: 'fuego',
-        netWt: '230'
-      }
-
+      netWt: 300,
+      price: 73,
+      slug: "bites_picosito_300g",
+      tags: ['bites', 'picosito', 'enchilado', '300g'],
+      title: "Bites Picosito",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '1549268-00-A_0_2000.jpg',
-        '1549268-00-A_2.jpg',
-      ],
+      category: 'bites',
+      description: '<span>Contenido 1 bowl de 300 gramos.</span>',
+      flavor: 'fuego',
+      images: ['bites-bowl-fuego.jpg', 'bites-fuego.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "deshidratado",
-        flavor: 'mango',
-        netWt: '60'
-      }
-
+      netWt: 300,
+      price: 73,
+      slug: "bites_fuego_300g",
+      tags: ['bites', 'fuego', 'enchilado', '300g'],
+      title: "Bites Fuego",
     },
     {
-      description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      images: [
-        '9877034-00-A_0_2000.jpg',
-        '9877034-00-A_2.jpg',
-      ],
+      category: 'piquín',
+      description: '<span>Contenido 1 especiero de 230 gramos.</span>',
+      flavor: 'fuego',
+      images: ['piquin-fuego.jpg', 'piquin.jpg',],
       inStock: 456,
-      price: 59,
-      slug: "pulpa_original_20g",
-      tags: ['pulpa', 'original', 'sin-chile', '20g'],
-      title: "Pulpa Original (sin chile)",
-      category: {
-        name: "deshidratado",
-        flavor: 'piña',
-        netWt: '60'
-      }
+      netWt: 230,
+      price: 63,
+      slug: "piquin_fuego_230g",
+      tags: ['piquien', 'fuego', 'enchilado', '300g'],
+      title: "Piquín Fuego",
     },
+    {
+      category: 'deshidratados',
+      description: '<span>Contenido 1 bolsa de 60 gramos.</span>',
+      flavor: 'mango',
+      images: ['mango-60g.jpg', 'mango.jpg',],
+      inStock: 456,
+      netWt: 60,
+      price: 59,
+      slug: "mango_60g",
+      tags: ['deshidratado', 'mango', 'sin chile', '60g'],
+      title: "Mango deshidratado",
+    },
+    {
+      category: 'deshidratados',
+      description: '<span>Contenido 1 bolsa de 60 gramos.</span>',
+      flavor: 'piña',
+      images: ['pina-60g.jpg', 'pina.jpg',],
+      inStock: 456,
+      netWt: 60,
+      price: 59,
+      slug: "pina_60g",
+      tags: ['deshidratado', 'piña', 'sin chile', '60g'],
+      title: "Piña deshidratada",
+    },
+
+
   ]
 }
