@@ -1,12 +1,15 @@
-import { SeedData } from "./products.types";
+import { ProductType } from "../types/products";
 
+type SeedData = {
+  products: Omit<ProductType, '_id'>[],
+}
 
 export const initialData: SeedData = {
   products: [
     {
       category: 'pulpa',
       description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      flavor: 'original',
+      variant: ['original'],
       images: ['pulpa-sobre-original.jpg', 'pulpa-original.jpg',],
       inStock: 456,
       netWt: 240,
@@ -19,7 +22,7 @@ export const initialData: SeedData = {
     {
       category: 'pulpa',
       description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      flavor: 'picosito',
+      variant: ['picosito'],
       images: ['pulpa-sobre-picosito.jpg', 'pulpa-picosito.jpg',],
       inStock: 456,
       netWt: 240,
@@ -32,7 +35,7 @@ export const initialData: SeedData = {
     {
       category: 'pulpa',
       description: '<span>Contenido 12 sobres de 20 gramos c/u. Cont. Net. 240 gramos.</span>',
-      flavor: 'fuego',
+      variant: ['fuego'],
       images: ['pulpa-sobre-fuego.jpg', 'pulpa-fuego.jpg',],
       inStock: 456,
       netWt: 240,
@@ -45,7 +48,7 @@ export const initialData: SeedData = {
     {
       category: 'bites',
       description: '<span>Contenido 1 bolsita de 50 gramos.</span>',
-      flavor: 'original',
+      variant: ['original'],
       images: ['bites-bolsita-original.jpg', 'bites-original.jpg',],
       inStock: 456,
       netWt: 50,
@@ -57,7 +60,7 @@ export const initialData: SeedData = {
     {
       category: 'bites',
       description: '<span>Contenido 1 bolsita de 50 gramos.</span>',
-      flavor: 'picosito',
+      variant: ['picosito'],
       images: ['bites-bolsita-picosito.jpg', 'bites-picosito.jpg',],
       inStock: 456,
       netWt: 50,
@@ -69,7 +72,7 @@ export const initialData: SeedData = {
     {
       category: 'bites',
       description: '<span>Contenido 1 bolsita de 50 gramos.</span>',
-      flavor: 'fuego',
+      variant: ['fuego'],
       images: ['bites-bolsita-fuego.jpg', 'bites-fuego.jpg',],
       inStock: 456,
       netWt: 50,
@@ -81,7 +84,7 @@ export const initialData: SeedData = {
     {
       category: 'bites',
       description: '<span>Contenido 1 bowl de 300 gramos.</span>',
-      flavor: 'original',
+      variant: ['original'],
       images: ['bites-bowl-original.jpg', 'bites-original.jpg',],
       inStock: 456,
       netWt: 300,
@@ -93,7 +96,7 @@ export const initialData: SeedData = {
     {
       category: 'bites',
       description: '<span>Contenido 1 bowl de 300 gramos.</span>',
-      flavor: 'picosito',
+      variant: ['picosito'],
       images: ['bites-bowl-picosito.jpg', 'bites-picosito.jpg',],
       inStock: 456,
       netWt: 300,
@@ -105,7 +108,7 @@ export const initialData: SeedData = {
     {
       category: 'bites',
       description: '<span>Contenido 1 bowl de 300 gramos.</span>',
-      flavor: 'fuego',
+      variant: ['fuego'],
       images: ['bites-bowl-fuego.jpg', 'bites-fuego.jpg',],
       inStock: 456,
       netWt: 300,
@@ -117,7 +120,7 @@ export const initialData: SeedData = {
     {
       category: 'piquín',
       description: '<span>Contenido 1 especiero de 230 gramos.</span>',
-      flavor: 'fuego',
+      variant: ['fuego'],
       images: ['piquin-fuego.jpg', 'piquin.jpg',],
       inStock: 456,
       netWt: 230,
@@ -129,7 +132,7 @@ export const initialData: SeedData = {
     {
       category: 'deshidratados',
       description: '<span>Contenido 1 bolsa de 60 gramos.</span>',
-      flavor: 'mango',
+      variant: ['mango'],
       images: ['mango-60g.jpg', 'mango.jpg',],
       inStock: 456,
       netWt: 60,
@@ -141,7 +144,7 @@ export const initialData: SeedData = {
     {
       category: 'deshidratados',
       description: '<span>Contenido 1 bolsa de 60 gramos.</span>',
-      flavor: 'piña',
+      variant: ['piña'],
       images: ['pina-60g.jpg', 'pina.jpg',],
       inStock: 456,
       netWt: 60,

@@ -28,6 +28,14 @@
   background-color: #274494 !important;
 }
 
+.circular-btn:hover {
+  background-color: #274494 !important;
+}
+
+.-btn:hover {
+  color: black;
+}
+
 
 .summary-card {
   border: 1px solid rgba(0, 0, 0, 0.1);
