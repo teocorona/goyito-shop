@@ -25,7 +25,15 @@
 }
 
 .circular-btn:hover {
-  background-color: #274494;
+  background-color: #274494 !important;
+}
+
+.circular-btn:hover {
+  background-color: #274494 !important;
+}
+
+.-btn:hover {
+  color: black;
 }
 
 

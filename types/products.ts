@@ -1,9 +1,9 @@
 
 export interface ProductType {
   _id: string;
-  category: 'bites' | 'pulpa' | 'piquín' | 'deshidratados';
+  category: categoryType;
   description: string;
-  flavor: 'original' | 'picosito' | 'fuego' | 'mango' | 'piña';
+  variant: variantType[];
   images: string[];
   inStock: number;
   netWt: number;
@@ -14,4 +14,6 @@ export interface ProductType {
   title: string;
 }
 
+export type variantType = 'original' | 'picosito' | 'fuego' | 'mango' | 'piña';
+export type categoryType = 'bites' | 'pulpa' | 'piquín' | 'deshidratados';
 
