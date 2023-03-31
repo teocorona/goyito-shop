@@ -1,4 +1,4 @@
-import { ProductType } from "../types/products";
+import { ProductType } from "@types";
 
 type SeedData = {
   products: Omit<ProductType, '_id'>[],
