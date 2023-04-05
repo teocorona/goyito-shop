@@ -2,7 +2,7 @@
 import { NextPage } from "next";
 import { Typography } from "@mui/material";
 import { ShopLayout } from "@components/layouts";
-import { initialData } from "@database/products";
+import { initialData } from "@database";
 import { ProductList } from "@components/products";
 
 

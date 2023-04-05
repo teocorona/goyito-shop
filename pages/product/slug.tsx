@@ -1,7 +1,7 @@
 import { ShopLayout } from '@components/layouts';
 import { ProductSlideshow, VariantSelector } from '@components/products';
 import { ItemCounter } from '@components/ui';
-import { initialData } from '@database/products';
+import { initialData } from '@database';
 import { Box, Button, Grid, Typography, Chip } from '@mui/material';
 import { NextPage } from 'next';
 

@@ -1,7 +1,7 @@
 import { ProductType } from "@types";
 
 type SeedData = {
-  products: Omit<ProductType, '_id'>[],
+  products: Omit<ProductType, '_id' | 'createdAt' | 'updatedAt'>[],
 }
 
 export const initialData: SeedData = {

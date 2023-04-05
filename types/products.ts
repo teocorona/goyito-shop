@@ -11,6 +11,9 @@ export interface ProductType {
   slug: string;
   tags: string[];
   title: string;
+
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type variantType = 'original' | 'picosito' | 'fuego' | 'mango' | 'piña';
