@@ -15,11 +15,14 @@ const AddressPage = () => {
           <TextField label='Teléfono' variant='filled' fullWidth />
         </Grid>
 
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={5}>
           <TextField label='Calle y número' variant='filled' fullWidth />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        <Grid item xs={12} sm={3}>
           <TextField label='Colonia' variant='filled' fullWidth />
+        </Grid>
+        <Grid item xs={12} sm={4}>
+          <TextField label='Referencias' variant='filled' fullWidth />
         </Grid>
 
         <Grid item xs={12} sm={4}>
