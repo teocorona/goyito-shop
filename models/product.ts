@@ -28,6 +28,8 @@ const productSchema = new Schema({
   timestamps: true
 });
 
+productSchema.index({ title: 'text', tags: 'text'})
+
 const Product: Model<ProductType> = mongoose.models.Product || model('Product', productSchema)
 
 export default Product;
