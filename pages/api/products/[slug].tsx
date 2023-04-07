@@ -3,9 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import Product from '@models'
 import { ProductType } from '@types'
 
-type Data = 
-| { message: string}
-| { product: ProductType}
+type Data =
+  | { message: string }
+  | ProductType
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
@@ -21,16 +21,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 }
 
 const getProduct = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  const {slug} = req.query
+  const { slug } = req.query
   await db.connect()
-  const product = await Product.findOne({slug}).lean()
+  const product = await Product.findOne({ slug }).lean()
   await db.disconnect()
-  if (!product){
+  if (!product) {
     return res.status(404).json({
       message: 'Not found'
     })
   }
-  res.status(200).json({
-    product
-  })
+  res.status(200).json(product)
 }

@@ -5,7 +5,7 @@ import { ProductType } from '@types'
 
 type Data =
   | { message: string }
-  | { products: ProductType[] }
+  | ProductType[]
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
 
@@ -40,7 +40,5 @@ const searchProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) =
       message: 'Not found'
     })
   }
-  res.status(200).json({
-    products
-  })
+  res.status(200).json(products)
 }
