@@ -1,7 +1,7 @@
 import { ProductType } from "@types";
 
 type SeedData = {
-  products: Omit<ProductType, '_id'>[],
+  products: Omit<ProductType, '_id' | 'createdAt' | 'updatedAt'>[],
 }
 
 export const initialData: SeedData = {
@@ -13,7 +13,6 @@ export const initialData: SeedData = {
       images: ['pulpa-sobre-original.jpg', 'pulpa-original.jpg',],
       inStock: 456,
       netWt: 240,
-      pieces: 12,
       price: 59,
       slug: "pulpa_original_20g",
       tags: ['pulpa', 'original', 'sin chile', '20g'],
@@ -26,7 +25,6 @@ export const initialData: SeedData = {
       images: ['pulpa-sobre-picosito.jpg', 'pulpa-picosito.jpg',],
       inStock: 456,
       netWt: 240,
-      pieces: 12,
       price: 59,
       slug: "pulpa_picosito_20g",
       tags: ['pulpa', 'picosito', 'enchilado', '20g'],
@@ -39,7 +37,6 @@ export const initialData: SeedData = {
       images: ['pulpa-sobre-fuego.jpg', 'pulpa-fuego.jpg',],
       inStock: 456,
       netWt: 240,
-      pieces: 12,
       price: 59,
       slug: "pulpa_fuego_20g",
       tags: ['pulpa', 'fuego', 'enchilado', '20g'],

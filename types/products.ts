@@ -7,11 +7,13 @@ export interface ProductType {
   images: string[];
   inStock: number;
   netWt: number;
-  pieces?: number;
   price: number;
   slug: string;
   tags: string[];
   title: string;
+
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type variantType = 'original' | 'picosito' | 'fuego' | 'mango' | 'piña';
