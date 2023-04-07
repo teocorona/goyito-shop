@@ -1,14 +1,18 @@
 import { AppBar, Badge, Box, Button, IconButton, Link, Toolbar, Typography } from '@mui/material';
 import NextLink from 'next/link';
-import { FC } from 'react';
+import { FC, useContext } from 'react';
 import SearchOutlined from '@mui/icons-material/SearchOutlined';
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
+import { useRouter } from 'next/router';
+import { UiContext } from '@context';
 
 interface Props {
 
 }
 
 export const Navbar: FC<Props> = () => {
+  const { toggleMenu } = useContext(UiContext)
+  const {asPath} = useRouter()
   return (
     <AppBar>
       <Toolbar>
@@ -21,25 +25,37 @@ export const Navbar: FC<Props> = () => {
 
         <Box flex={1} />
 
-        <Box sx={{ display: {xs: 'none', md: 'flex'}}}>
+        <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           <NextLink href='/category/bites' passHref>
             <Link component='span'>
-              <Button>Bites</Button>
+              <Button
+                color={asPath === '/category/bites' ? 'primary' : 'info'}
+              >
+                Bites</Button>
             </Link>
           </NextLink>
           <NextLink href='/category/pulpa' passHref>
             <Link component='span'>
-              <Button>Pulpa</Button>
+              <Button
+                color={asPath === '/category/pulpa' ? 'primary' : 'info'}
+              >
+                Pulpa</Button>
             </Link>
           </NextLink>
           <NextLink href='/category/piquin' passHref>
             <Link component='span'>
-              <Button>Piquín</Button>
+              <Button
+                color={asPath === '/category/piquin' ? 'primary' : 'info'}
+              >
+                piquin</Button>
             </Link>
           </NextLink>
           <NextLink href='/category/deshidratados' passHref>
             <Link component='span'>
-              <Button>Deshidratados</Button>
+              <Button
+                color={asPath === '/category/deshidratados' ? 'primary' : 'info'}
+              >
+                Deshidratados</Button>
             </Link>
           </NextLink>
         </Box>
@@ -59,7 +75,7 @@ export const Navbar: FC<Props> = () => {
           </Link>
         </NextLink>
 
-        <Button>Menú</Button>
+        <Button onClick={toggleMenu}>Menú</Button>
 
       </Toolbar>
     </AppBar>

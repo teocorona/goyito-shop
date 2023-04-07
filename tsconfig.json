@@ -20,7 +20,9 @@
       "@themes": ["./themes"],
       "@types": ["./types"],
       "@styles/*": ["./styles/*"],
-      "@models": ["./models"]
+      "@models": ["./models"],
+      "@hooks": ["./hooks"],
+      "@context": ["./context"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

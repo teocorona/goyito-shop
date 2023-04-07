@@ -17,5 +17,5 @@ export interface ProductType {
 }
 
 export type variantType = 'original' | 'picosito' | 'fuego' | 'mango' | 'piña';
-export type categoryType = 'bites' | 'pulpa' | 'piquín' | 'deshidratados';
+export type categoryType = 'bites' | 'pulpa' | 'piquin' | 'deshidratados';
 

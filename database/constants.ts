@@ -1,5 +1,5 @@
 
 
 export const CONSTANTS={
-  validCategory : ['bites', 'pulpa', 'piquín', 'deshidratados']
+  validCategory : ['bites', 'pulpa', 'piquin', 'deshidratados']
 }

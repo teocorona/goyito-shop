@@ -3,10 +3,9 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import Product from '@models'
 import { ProductType } from '@types'
 
-type Data = {
-  message: string
-  products?: ProductType[]
-}
+type Data =
+  | { message: string }
+  | ProductType[]
 
 export default function handler(req: NextApiRequest, res: NextApiResponse<Data>) {
   switch (req.method) {
@@ -24,7 +23,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse<Data>)
 const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { category = ' all' } = req.query
   let condition = {};
-  if (category !== 'all' && CONSTANTS.validCategory.includes(`${category}`) ) {
+  if (category !== 'all' && CONSTANTS.validCategory.includes(`${category}`)) {
     condition = { category }
   }
   await db.connect()
@@ -32,8 +31,5 @@ const getProducts = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     .select('title images price inStock slug -_id')
     .lean()
   await db.disconnect()
-  res.status(200).json({
-    message: 'all products',
-    products
-  })
+  res.status(200).json(products)
 }
