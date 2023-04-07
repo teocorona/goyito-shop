@@ -115,7 +115,7 @@ export const initialData: SeedData = {
       title: "Bites Fuego",
     },
     {
-      category: 'piquín',
+      category: 'piquin',
       description: '<span>Contenido 1 especiero de 230 gramos.</span>',
       variant: ['fuego'],
       images: ['piquin-fuego.jpg', 'piquin.jpg',],
@@ -124,7 +124,7 @@ export const initialData: SeedData = {
       price: 63,
       slug: "piquin_fuego_230g",
       tags: ['piquien', 'fuego', 'enchilado', '300g'],
-      title: "Piquín Fuego",
+      title: "piquin Fuego",
     },
     {
       category: 'deshidratados',

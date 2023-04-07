@@ -1,6 +1,7 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useContext } from "react";
 import Head from "next/head"
 import { Navbar, SideMenu } from "@components/ui";
+import { UiContext } from "@context";
 
 interface Props {
   title: string;
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export const ShopLayout: FC<Props> = ({ children, title, pageDescription, imageFullUrl }) => {
+  const { isMenuOpen, toggleMenu } = useContext(UiContext)
   return (
     <>
       <Head>
@@ -26,11 +28,7 @@ export const ShopLayout: FC<Props> = ({ children, title, pageDescription, imageF
       <nav>
         <Navbar />
       </nav>
-
       <SideMenu />
-
-      {/* TODO: sidebar */}
-
       <main style={{
         margin: '80px auto',
         maxWidth: '1440px',

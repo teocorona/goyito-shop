@@ -19,7 +19,7 @@ const productSchema = new Schema({
   category: [{
     type: String,
     enum: {
-      values: ['bites', 'pulpa', 'piquín', 'deshidratados'],
+      values: ['bites', 'pulpa', 'piquin', 'deshidratados'],
       message: '{VALUE} is not a valid category'
     },
   }],
