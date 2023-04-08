@@ -1,13 +1,18 @@
 import { ShopLayout } from '@components/layouts';
 import { ProductSlideshow, VariantSelector } from '@components/products';
 import { ItemCounter } from '@components/ui';
-import { initialData } from '@database';
 import { Box, Button, Grid, Typography, Chip } from '@mui/material';
 import { NextPage } from 'next';
+import { ProductType } from '@types';
+import { getAllProductsSlugs, getProductBySlug } from '@database';
+// import { GetServerSideProps } from 'next'
+import { GetStaticPaths, GetStaticProps} from 'next'
+interface Props {
+  product: ProductType
+}
 
-const product = initialData.products[5]
-
-const ProductPage: NextPage = () => {
+const ProductPage: NextPage<Props> = (props) => {
+  const { product } = props
   return (
     <ShopLayout title={product.title} pageDescription={product.description} >
       <Grid container spacing={3}>
@@ -38,12 +43,56 @@ const ProductPage: NextPage = () => {
             </Box>
           </Box>
         </Grid>
-
-
       </Grid>
-
     </ShopLayout>
+    // <></>
   );
 };
 
 export default ProductPage;
+
+
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const product = await getProductBySlug(`${ctx.query.slug || ''}`)
+//   if (!product) {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false
+//       }
+//     }
+//   }
+//   return {
+//     props: {
+//       product
+//     }
+//   }
+// }
+
+export const getStaticPaths: GetStaticPaths = async (ctx) => {
+  const data = await getAllProductsSlugs()
+  const paths = data?.map(s=>({params : {'slug':s.slug}})) || []
+  return {
+    paths,
+    fallback: 'blocking'
+  }
+}
+
+export const getStaticProps: GetStaticProps = async (ctx) => {
+  // const product = await getProductBySlug(`${'pina_60g'}`)
+  const product = await getProductBySlug(`${ctx.params?.slug || ''}`)
+  if (!product) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {
+      product
+    },
+    revalidate: 86400
+  }
+}
