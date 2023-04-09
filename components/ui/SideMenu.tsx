@@ -7,7 +7,7 @@ import ConfirmationNumberOutlined from "@mui/icons-material/ConfirmationNumberOu
 import LoginOutlined from "@mui/icons-material/LoginOutlined"
 import SearchOutlined from "@mui/icons-material/SearchOutlined"
 import VpnKeyOutlined from "@mui/icons-material/VpnKeyOutlined"
-import { FC, useContext } from "react"
+import { FC, useContext, useState } from "react"
 import { useRouter } from "next/router"
 import { UiContext } from '@context'
 
@@ -16,8 +16,15 @@ interface Props {
 }
 
 export const SideMenu: FC<Props> = () => {
-  const { isMenuOpen, toggleMenu } = useContext(UiContext)
   const router = useRouter()
+  const { isMenuOpen, toggleMenu } = useContext(UiContext)
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const onSearchTerm = () => {
+    if (searchTerm.trim().length === 0) return;
+    navigateTo(`/search/${searchTerm}`)
+  }
+
   const navigateTo = (url: string) => {
     toggleMenu()
     router.push(url)
@@ -33,12 +40,16 @@ export const SideMenu: FC<Props> = () => {
         <List>
           <ListItem>
             <Input
+              autoFocus
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyUp={(e) => e.key === 'Enter' ? onSearchTerm() : null}
               type='text'
               placeholder="Buscar..."
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton
-                    aria-label="toggle password visibility"
+                    onClick={onSearchTerm}
                   >
                     <SearchOutlined />
                   </IconButton>
