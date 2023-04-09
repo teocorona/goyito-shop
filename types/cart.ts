@@ -10,7 +10,6 @@ export interface CartType {
   price: number;
   slug: string;
   title: string;
-  
   quantity: number;
   
   // tags: string[];

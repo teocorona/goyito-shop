@@ -1,18 +1,34 @@
+import { useState } from 'react';
+import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { ShopLayout } from '@components/layouts';
 import { ProductSlideshow, VariantSelector } from '@components/products';
 import { ItemCounter } from '@components/ui';
 import { Box, Button, Grid, Typography, Chip } from '@mui/material';
-import { NextPage } from 'next';
-import { ProductType } from '@types';
+import { CartType, ProductType } from '@types';
 import { getAllProductsSlugs, getProductBySlug } from '@database';
-// import { GetServerSideProps } from 'next'
-import { GetStaticPaths, GetStaticProps} from 'next'
 interface Props {
   product: ProductType
 }
 
 const ProductPage: NextPage<Props> = (props) => {
   const { product } = props
+
+  const [tempCartProduct, setTempCartProduct] = useState<CartType>({
+    _id: product._id,
+    category: product.category,
+    variant: product.variant[0],
+    image: product.images[0],
+    inStock: product.inStock,
+    netWt: product.netWt,
+    price: product.price,
+    slug: product.slug,
+    title: product.title,
+    quantity: 1
+  })
+
+  const addToCart = () => {
+    console.log({tempCartProduct})
+  };
   return (
     <ShopLayout title={product.title} pageDescription={product.description} >
       <Grid container spacing={3}>
@@ -26,17 +42,20 @@ const ProductPage: NextPage<Props> = (props) => {
             <Box sx={{ my: 2 }}>
               <Box display='flex' alignItems='center' gap={1}>
                 <Typography variant='subtitle2'>Cantidad</Typography>
-                <ItemCounter />
+                <ItemCounter tempCartProduct={tempCartProduct} setTempCartProduct={setTempCartProduct} />
               </Box>
               <Box display='flex' alignItems='center' gap={1}>
                 <Typography variant='subtitle2'>Sabor</Typography>
                 <VariantSelector selectedVariant={product.variant[0]} variants={product.variant} />
               </Box>
             </Box>
-            <Button color='secondary' className='circular-btn'>
-              Agregar al carrito
-            </Button>
-            {/* <Chip label='No hay disponibles' color='error' variant='outlined'/> */}
+            {product.inStock > 0 ? (
+              <Button color='secondary' className='circular-btn' onClick={addToCart}>
+                Agregar al carrito
+              </Button>
+            ) : (
+              <Chip label='No hay disponibles' color='error' variant='outlined' />
+            )}
             <Box sx={{ mt: 3 }}>
               <Typography variant='subtitle2'>Descripcion:</Typography>
               <Typography variant='body2' dangerouslySetInnerHTML={{ __html: product.description }} />
@@ -45,7 +64,6 @@ const ProductPage: NextPage<Props> = (props) => {
         </Grid>
       </Grid>
     </ShopLayout>
-    // <></>
   );
 };
 
@@ -71,7 +89,7 @@ export default ProductPage;
 
 export const getStaticPaths: GetStaticPaths = async (ctx) => {
   const data = await getAllProductsSlugs()
-  const paths = data?.map(s=>({params : {'slug':s.slug}})) || []
+  const paths = data?.map(s => ({ params: { 'slug': s.slug } })) || []
   return {
     paths,
     fallback: 'blocking'
