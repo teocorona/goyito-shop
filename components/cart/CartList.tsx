@@ -1,10 +1,12 @@
 import NextLink from "next/link";
-import { initialData } from '@database';
 import { Box, Button, CardActionArea, CardMedia, Grid, Link, Typography } from '@mui/material';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { ItemCounter } from "@components/ui";
 import DeleteOutline from "@mui/icons-material/DeleteOutline";
-
+import { useContext } from "react"
+import { CartContext } from "@context"
+import { initialData } from "../../database/products";
+// import { initialData } from '@database';
 interface Props {
   editable?: boolean;
 }
@@ -14,17 +16,18 @@ const productInCart = [
   initialData.products[8],
 ]
 export const CartList: FC<Props> = ({ editable = false }) => {
-
+  const { cart = [] } = useContext(CartContext)
+  const [tempCart, setTempCart] = useState(cart)
   return (
     <>
-      {productInCart.map(product => (
+      {cart.map((product, i) => (
         <Grid container key={product.slug} spacing={2} sx={{ mb: 3 }}>
           <Grid item xs={3}>
             <NextLink href={`/product/${product.slug}`}>
               <Link component='span'>
                 <CardActionArea>
                   <CardMedia
-                    image={`/products/${product.images[0]}`}
+                    image={`/products/${product.image}`}
                     component='img'
                     sx={{ borderRadius: '5px' }}
                   />
@@ -37,7 +40,8 @@ export const CartList: FC<Props> = ({ editable = false }) => {
               <Typography variant='body1'>{product.title}</Typography>
               <Typography variant='body1'>Sabor: <strong>{product.variant}</strong></Typography>
               {editable ?
-                <ItemCounter />
+                <Typography variant='h4'>{product.quantity} piezas</Typography>
+                // <ItemCounter setTempCartProduct={setTempCart} tempCartProduct={product} />
                 : <Typography variant='h4'>3 artíclos</Typography>}
             </Box>
           </Grid>

@@ -4,7 +4,7 @@ import { FC, useContext, useState } from 'react';
 import SearchOutlined from '@mui/icons-material/SearchOutlined';
 import ShoppingCartOutlined from '@mui/icons-material/ShoppingCartOutlined';
 import { useRouter } from 'next/router';
-import { UiContext } from '@context';
+import { CartContext, UiContext } from '@context';
 import InputAdornment from '@mui/material/InputAdornment';
 import ClearOutlined from '@mui/icons-material/ClearOutlined';
 
@@ -15,6 +15,7 @@ interface Props {
 export const Navbar: FC<Props> = () => {
   const { asPath, push } = useRouter()
   const { isMenuOpen, toggleMenu } = useContext(UiContext)
+  const { cart } = useContext(CartContext)
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
@@ -22,6 +23,10 @@ export const Navbar: FC<Props> = () => {
     if (searchTerm.trim().length === 0) return;
     push(`/search/${searchTerm}`)
   }
+  let totalProducts = 0
+  cart.map(item => {
+    totalProducts += item.quantity
+  })
 
   return (
     <AppBar>
@@ -38,7 +43,7 @@ export const Navbar: FC<Props> = () => {
         <Box
           sx={{ display: isSearchVisible ? 'none' : { xs: 'none', md: 'flex' } }}
           className='fadeIn'
-          >
+        >
           <NextLink href='/category/bites' passHref>
             <Link component='span'>
               <Button
@@ -115,9 +120,11 @@ export const Navbar: FC<Props> = () => {
         <NextLink href='/cart' passHref>
           <Link component='span'>
             <IconButton>
-              <Badge badgeContent={2} color='secondary'>
-                <ShoppingCartOutlined />
-              </Badge>
+              {cart.length > 0 ? (
+                <Badge badgeContent={totalProducts} color='secondary'>
+                  <ShoppingCartOutlined />
+                </Badge>
+              ) : <ShoppingCartOutlined />}
             </IconButton>
           </Link>
         </NextLink>

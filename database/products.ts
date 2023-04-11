@@ -124,7 +124,7 @@ export const initialData: SeedData = {
       price: 63,
       slug: "piquin_fuego_230g",
       tags: ['piquien', 'fuego', 'enchilado', '300g'],
-      title: "piquin Fuego",
+      title: "Piquín Fuego",
     },
     {
       category: 'deshidratados',
