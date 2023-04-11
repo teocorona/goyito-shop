@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { ShopLayout } from '@components/layouts';
 import { ProductSlideshow, VariantSelector } from '@components/products';
@@ -6,12 +6,14 @@ import { ItemCounter } from '@components/ui';
 import { Box, Button, Grid, Typography, Chip } from '@mui/material';
 import { CartType, ProductType } from '@types';
 import { getAllProductsSlugs, getProductBySlug } from '@database';
+import { CartContext } from '../../context/cart';
 interface Props {
   product: ProductType
 }
 
 const ProductPage: NextPage<Props> = (props) => {
   const { product } = props
+  const { addProductToCart } = useContext(CartContext)
 
   const [tempCartProduct, setTempCartProduct] = useState<CartType>({
     _id: product._id,
@@ -27,7 +29,7 @@ const ProductPage: NextPage<Props> = (props) => {
   })
 
   const addToCart = () => {
-    console.log({tempCartProduct})
+    addProductToCart(tempCartProduct)
   };
   return (
     <ShopLayout title={product.title} pageDescription={product.description} >

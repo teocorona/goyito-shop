@@ -1,4 +1,6 @@
-import { CartList, OrderSummary } from "@components/cart"
+// import { CartList, OrderSummary } from "@components/cart"
+import { OrderSummary } from "../../components/cart/OrderSummary"
+import { CartList } from "../../components/cart/CartList"
 import { ShopLayout } from "@components/layouts"
 import { Box, Button, Card, CardContent, Divider, Grid, Typography } from "@mui/material"
 
