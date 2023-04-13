@@ -15,7 +15,7 @@ interface Props {
 export const Navbar: FC<Props> = () => {
   const { asPath, push } = useRouter()
   const { isMenuOpen, toggleMenu } = useContext(UiContext)
-  const { cart } = useContext(CartContext)
+  const { numberOfItems } = useContext(CartContext)
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
@@ -23,10 +23,6 @@ export const Navbar: FC<Props> = () => {
     if (searchTerm.trim().length === 0) return;
     push(`/search/${searchTerm}`)
   }
-  let totalProducts = 0
-  cart.map(item => {
-    totalProducts += item.quantity
-  })
 
   return (
     <AppBar>
@@ -120,8 +116,8 @@ export const Navbar: FC<Props> = () => {
         <NextLink href='/cart' passHref>
           <Link component='span'>
             <IconButton>
-              {cart.length > 0 ? (
-                <Badge badgeContent={totalProducts} color='secondary'>
+              {numberOfItems > 0 ? (
+                <Badge badgeContent={numberOfItems} color='secondary'>
                   <ShoppingCartOutlined />
                 </Badge>
               ) : <ShoppingCartOutlined />}
