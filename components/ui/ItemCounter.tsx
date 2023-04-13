@@ -1,36 +1,30 @@
 import RemoveCircleOutline from '@mui/icons-material/RemoveCircleOutline';
 import AddCircleOutline from '@mui/icons-material/AddCircleOutline';
 import { Box, IconButton, Typography } from '@mui/material';
-import { Dispatch, FC, SetStateAction } from 'react';
-import { CartType } from '@types';
+import { FC } from 'react';
 
 interface Props {
-  tempCartProduct: CartType,
-  setTempCartProduct: Dispatch<SetStateAction<CartType>>
+  currentValue: number,
+  maxValue: number,
+  updatedQuantity: (newValue: number) => void;
 }
 
-export const ItemCounter: FC<Props> = ({ tempCartProduct, setTempCartProduct }) => {
-  const handleRemove = () => {
-    if(tempCartProduct.quantity <= 1) return
-    setTempCartProduct(currentProduct => ({
-      ...currentProduct,
-      quantity: currentProduct.quantity - 1
-    }))
-  };
-  const handleAdd = () => {
-    if(tempCartProduct.quantity === tempCartProduct.inStock) return
-    setTempCartProduct(currentProduct => ({
-      ...currentProduct,
-      quantity: currentProduct.quantity + 1
-    }))
+export const ItemCounter: FC<Props> = ({ currentValue, maxValue, updatedQuantity }) => {
+  const handleAddOrRemove = (value: number) => {
+    if (value === -1) {
+      if (currentValue === 1) return;
+      return updatedQuantity(currentValue - 1)
+    }
+    if (currentValue >= maxValue) return
+    return updatedQuantity(currentValue + 1)
   };
   return (
     <Box display='flex' alignItems='center'>
-      <IconButton onClick={handleRemove}>
+      <IconButton onClick={() => handleAddOrRemove(-1)}>
         <RemoveCircleOutline />
       </IconButton>
-      <Typography sx={{ width: 40, textAlign: 'center' }}>{tempCartProduct.quantity}</Typography>
-      <IconButton onClick={handleAdd}>
+      <Typography sx={{ width: 40, textAlign: 'center' }}>{currentValue}</Typography>
+      <IconButton onClick={() => handleAddOrRemove(1)}>
         <AddCircleOutline />
       </IconButton>
     </Box>

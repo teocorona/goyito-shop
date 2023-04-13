@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { NextPage, GetStaticPaths, GetStaticProps } from 'next'
 import { ShopLayout } from '@components/layouts';
 import { ProductSlideshow, VariantSelector } from '@components/products';
@@ -28,6 +28,13 @@ const ProductPage: NextPage<Props> = (props) => {
     quantity: 1
   })
 
+  const onUpdatedQuantity = (quantity: number) => {
+    setTempCartProduct( currentProduct => ({
+      ...currentProduct,
+      quantity
+    }))
+  }
+
   const addToCart = () => {
     addProductToCart(tempCartProduct)
   };
@@ -44,7 +51,11 @@ const ProductPage: NextPage<Props> = (props) => {
             <Box sx={{ my: 2 }}>
               <Box display='flex' alignItems='center' gap={1}>
                 <Typography variant='subtitle2'>Cantidad</Typography>
-                <ItemCounter tempCartProduct={tempCartProduct} setTempCartProduct={setTempCartProduct} />
+                <ItemCounter
+                currentValue={tempCartProduct.quantity}
+                updatedQuantity={onUpdatedQuantity}
+                maxValue={product.inStock}
+                />
               </Box>
               <Box display='flex' alignItems='center' gap={1}>
                 <Typography variant='subtitle2'>Sabor</Typography>
