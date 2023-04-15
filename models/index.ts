@@ -1,1 +1,2 @@
-export { default } from './product'
+export * from './Product'
+export * from './User'

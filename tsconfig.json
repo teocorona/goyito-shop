@@ -23,6 +23,7 @@
       "@models": ["./models"],
       "@hooks": ["./hooks"],
       "@context": ["./context"],
+      "@utils": ["./utils"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

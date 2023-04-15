@@ -1,10 +1,32 @@
-import { ProductType } from "@types";
+import { ProductType, UserType } from "@types";
+import bcrypt from "bcryptjs";
 
 type SeedData = {
   products: Omit<ProductType, '_id' | 'createdAt' | 'updatedAt'>[],
+  users: Omit<UserType, '_id' | 'createdAt' | 'updatedAt'>[],
 }
 
 export const initialData: SeedData = {
+  users: [
+    {
+      name: 'Milka',
+      email: 'milka@gmail.com',
+      password: bcrypt.hashSync('123456'),
+      role: 'admin',
+    },
+    {
+      name: 'Majo',
+      email: 'majo@gmail.com',
+      password: bcrypt.hashSync('123456'),
+      role: 'client',
+    },
+    {
+      name: 'Teo',
+      email: 'teo@gmail.com',
+      password: bcrypt.hashSync('123456'),
+      role: 'client',
+    },
+  ],
   products: [
     {
       category: 'pulpa',
