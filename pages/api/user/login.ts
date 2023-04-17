@@ -33,13 +33,13 @@ const loginUser = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const user = await User.findOne({ email })
   await db.disconnect()
   if (!user) {
-    return res.status(404).json({
-      message: 'Correo o contraseña no válido - E404'
+    return res.status(400).json({
+      message: 'Correo o contraseña no válido - E400'
     })
   }
   if (!bcrypt.compareSync(password, user.password!)) {
-    return res.status(404).json({
-      message: 'Correo o contraseña no válido - C404'
+    return res.status(400).json({
+      message: 'Correo o contraseña no válido - C400'
     })
   }
   const { role, name, _id } = user

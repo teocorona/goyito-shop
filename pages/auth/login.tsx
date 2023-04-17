@@ -1,8 +1,12 @@
 import { AuthLayout } from "@components/layouts";
-import { Box, Button, Grid, Link, TextField, Typography } from "@mui/material";
+import ErrorOutline from "@mui/icons-material/ErrorOutline";
+import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/material";
 import { validations } from "@utils";
+import axios from "axios";
 import NextLink from "next/link";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { goyitoApi } from "../../api";
 
 interface FormData {
   email: string,
@@ -10,22 +14,48 @@ interface FormData {
 }
 const LoginPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-
-  const onLoginUser = (data: FormData) => {
-    console.log(data)
+  const [showError, setShowError] = useState(false)
+  const onLoginUser = async ({ email, password }: FormData) => {
+    setShowError(false)
+    try {
+      const { data } = await goyitoApi.post('/user/login', { email, password })
+      const { token, user } = data
+      console.log(data)
+    } catch (error) {
+      setShowError(true)
+      if (axios.isAxiosError(error)) {
+        console.log(error)
+      }
+      console.log('error al iniciar sesion')
+      setTimeout(() => {
+        setShowError(false)
+      }, 5000);
+    }
   }
 
   return (
     <AuthLayout title='Ingresar'>
-      <form onSubmit={handleSubmit(onLoginUser)}>
+      <form onSubmit={handleSubmit(onLoginUser)} noValidate>
         <Box sx={{ width: 350, padding: '10px 20px' }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant='h1' component='h1'>Iniciar Sesión</Typography>
+              <Box sx={{height: 25}}>
+                {showError ?
+                  <Chip
+                    label='Usuario o contraseña incorrectos'
+                    color='error'
+                    icon={<ErrorOutline />}
+                    className='fade-in'
+                    sx={{ width: '100%' }}
+                  />
+                  : null}
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <TextField
                 label='Correo'
+                type='email'
                 variant='filled'
                 fullWidth
                 {
