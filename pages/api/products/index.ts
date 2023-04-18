@@ -1,6 +1,6 @@
 import { db, CONSTANTS } from '@database'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import Product from '@models'
+import { Product } from '@models'
 import { ProductType } from '@types'
 
 type Data =
