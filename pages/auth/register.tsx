@@ -2,11 +2,13 @@ import { AuthLayout } from "@components/layouts";
 import { Box, Button, Grid, Link, TextField, Typography, Chip } from "@mui/material";
 import axios from "axios";
 import NextLink from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { goyitoApi } from "../../api";
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
 import { validations } from "@utils";
+import { useRouter } from "next/router";
+import { AuthContext } from "@context";
 interface FormData {
   name: string;
   email: string;
@@ -14,24 +16,21 @@ interface FormData {
 }
 
 const Register = () => {
+  const router = useRouter();
+  const { registerUser } = useContext(AuthContext)
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [showError, setShowError] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
   const onRegisterUser = async ({ name, email, password }: FormData) => {
     setShowError(false)
-    try {
-      const { data } = await goyitoApi.post('/user/register', { name, email, password })
-      const { token, user } = data
-      console.log(data)
-    } catch (error) {
+    const { hasError, message } = await registerUser(name, email, password);
+    if (hasError) {
       setShowError(true)
-      if (axios.isAxiosError(error)) {
-        console.log(error)
-      }
-      console.log('error al crear usuario')
-      setTimeout(() => {
-        setShowError(false)
-      }, 5000);
+      setErrorMsg(message || '')
+      setTimeout(() => setShowError(false), 5000);
+      return
     }
+    router.replace('/')
   }
   return (
     <AuthLayout title='Ingresar'>

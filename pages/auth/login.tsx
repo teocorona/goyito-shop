@@ -4,33 +4,30 @@ import { Box, Button, Chip, Grid, Link, TextField, Typography } from "@mui/mater
 import { validations } from "@utils";
 import axios from "axios";
 import NextLink from "next/link";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { goyitoApi } from "../../api";
+import { AuthContext } from "@context";
+import { useRouter } from "next/router";
 
 interface FormData {
   email: string,
   password: string,
 }
 const LoginPage = () => {
+  const router = useRouter()
+  const { loginUser } = useContext(AuthContext)
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
   const [showError, setShowError] = useState(false)
   const onLoginUser = async ({ email, password }: FormData) => {
     setShowError(false)
-    try {
-      const { data } = await goyitoApi.post('/user/login', { email, password })
-      const { token, user } = data
-      console.log(data)
-    } catch (error) {
+    const isValidLogin = await loginUser(email, password)
+    if (!isValidLogin) {
       setShowError(true)
-      if (axios.isAxiosError(error)) {
-        console.log(error)
-      }
-      console.log('error al iniciar sesion')
-      setTimeout(() => {
-        setShowError(false)
-      }, 5000);
+      setTimeout(() => setShowError(false), 5000);
+      return
     }
+    router.replace('/')
   }
 
   return (
@@ -40,7 +37,7 @@ const LoginPage = () => {
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant='h1' component='h1'>Iniciar Sesión</Typography>
-              <Box sx={{height: 25}}>
+              <Box sx={{ height: 25 }}>
                 {showError ?
                   <Chip
                     label='Usuario o contraseña incorrectos'
