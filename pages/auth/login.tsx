@@ -27,7 +27,7 @@ const LoginPage = () => {
       setTimeout(() => setShowError(false), 5000);
       return
     }
-    router.replace('/')
+    router.replace(`${router.query.p}`|| '/')
   }
 
   return (
@@ -91,7 +91,9 @@ const LoginPage = () => {
               </Button>
             </Grid>
             <Grid item xs={12} display='flex' justifyContent='end'>
-              <NextLink href={'/auth/register'} passHref>
+              <NextLink
+              href={router.query.p ? `/auth/register?p=${router.query.p}` : '/auth/register'}
+              passHref>
                 <Link component='span' underline="always">Ir a crear cuenta</Link>
               </NextLink>
             </Grid>
