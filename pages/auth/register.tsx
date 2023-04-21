@@ -111,7 +111,9 @@ const Register = () => {
               </Button>
             </Grid>
             <Grid item xs={12} display='flex' justifyContent='end'>
-              <NextLink href={'/auth/login'} passHref>
+              <NextLink 
+                href={router.query.p ? `/auth/login?p=${router.query.p}` : '/auth/login'}
+                passHref>
                 <Link component='span' underline="always">Ir a iniciar sesión</Link>
               </NextLink>
             </Grid>

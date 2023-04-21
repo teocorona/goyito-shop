@@ -1,24 +1,30 @@
 import { FC, useEffect, useReducer, useRef } from 'react'
-import { CartType, ProductType } from '@types'
+import { CartType, AddressType } from '@types'
 import { CartContext, cartReducer } from '.'
 import Cookie from 'js-cookie'
 
 export interface CartState {
   cart: CartType[],
+  isLoaded: boolean,
   numberOfItems: number;
   subTotal: number;
   taxIva: number;
   taxIeps: number;
   total: number;
+  address?: AddressType
 }
+
+
 
 const CART_INITIAL_STATE: CartState = {
   cart: [],
+  isLoaded: false,
   numberOfItems: 0,
   subTotal: 0,
   taxIva: 0,
   taxIeps: 0,
   total: 0,
+  address: undefined
 }
 
 interface Props {
@@ -39,6 +45,14 @@ export const CartProvider: FC<Props> = ({ children }) => {
     }
   }, [])
 
+  useEffect(() => {
+    try {
+      const cookieAddress: AddressType = Cookie.get('address') ? JSON.parse(Cookie.get('address')!) : undefined
+      dispatch({ type: '[CART] - Load address from cookies | storage', payload: cookieAddress })
+    } catch (error) {
+      dispatch({ type: '[CART] - Load address from cookies | storage', payload: undefined })
+    }
+  }, [])
 
   useEffect(() => {
     if (isReloading.current) {
@@ -49,8 +63,8 @@ export const CartProvider: FC<Props> = ({ children }) => {
   }, [state.cart])
 
   useEffect(() => {
-    const numberOfItems = state.cart.reduce((prev,curr)=> curr.quantity + prev , 0)
-    const subTotal = state.cart.reduce((prev,curr)=> (curr.quantity * curr.price) + prev , 0)
+    const numberOfItems = state.cart.reduce((prev, curr) => curr.quantity + prev, 0)
+    const subTotal = state.cart.reduce((prev, curr) => (curr.quantity * curr.price) + prev, 0)
     const taxIva = subTotal * Number(process.env.NEXT_PUBLIC_TAX_IVA || 0);
     const taxIeps = subTotal * Number(process.env.NEXT_PUBLIC_TAX_IEPS || 0);
     const total = subTotal + taxIva + taxIeps;
@@ -61,7 +75,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
       taxIeps,
       total
     }
-    dispatch({type:'[CART] - Update order summary', payload: orderSummary})
+    dispatch({ type: '[CART] - Update order summary', payload: orderSummary })
   }, [state.cart])
 
   const addProductToCart = (product: CartType) => {
@@ -83,11 +97,15 @@ export const CartProvider: FC<Props> = ({ children }) => {
     })
     dispatch({ type: '[CART] - Update cart', payload: updatedProducts })
   };
-
+  
   const deleteCartItem = (product: CartType) => {
     console.log(product)
     const updatedProducts = state.cart.filter(item => (!(item.slug === product.slug && item.variant === product.variant)))
     dispatch({ type: '[CART] - Update cart', payload: updatedProducts })
+  };
+  
+  const updateAddress= (address: AddressType) => {
+    dispatch({ type: '[CART] - Update address', payload: address })
   };
 
   return (
@@ -96,7 +114,7 @@ export const CartProvider: FC<Props> = ({ children }) => {
       addProductToCart,
       updateProductCartQuantity,
       deleteCartItem,
-
+      updateAddress
     }}>
       {children}
     </CartContext.Provider>

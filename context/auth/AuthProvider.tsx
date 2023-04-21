@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useRouter } from 'next/router';
 import { FC, useEffect, useReducer } from 'react'
 import { goyitoApi } from '../../api';
 import { UserType } from '../../types/user';
@@ -20,14 +21,15 @@ interface Props {
 }
 
 export const AuthProvider: FC<Props> = ({ children }) => {
-
   const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE)
+  const router = useRouter()
 
   useEffect(() => {
     validateToken()
   }, [])
 
   const validateToken = async () => {
+    if(!Cookies.get('token')) return
     try {
       const { data } = await goyitoApi.get('/user/token');
       const { token, user } = data
@@ -74,11 +76,20 @@ export const AuthProvider: FC<Props> = ({ children }) => {
     }
   }
 
+  const logoutUser = async () => {
+      Cookies.remove('token');
+      Cookies.remove('cart');
+      Cookies.remove('address');
+      router.reload()
+      dispatch({ type: '[AUTH] - Logout'})
+  }
+
   return (
     <AuthContext.Provider value={{
       ...state,
       loginUser,
       registerUser,
+      logoutUser,
     }}>
       {children}
     </AuthContext.Provider>
