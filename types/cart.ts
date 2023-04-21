@@ -11,7 +11,7 @@ export interface CartType {
   slug: string;
   title: string;
   quantity: number;
-  
+
   // tags: string[];
   // description: string;
   // images: string[];
@@ -19,4 +19,14 @@ export interface CartType {
   // updatedAt: string;
 }
 
+export interface AddressType {
+    fullName: string;
+    phone: string;
+    address: string;
+    address2: string;
+    ref: string;
+    zip: string;
+    city: string;
+    country: string;
+}
 
