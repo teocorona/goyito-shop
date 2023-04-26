@@ -3,7 +3,7 @@ import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { useContext, useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { CartContext } from "../../context/cart";
 import { CONSTANTS } from "../../database/constants"
 import { AddressType } from "../../types/cart";
@@ -11,7 +11,7 @@ import { AddressType } from "../../types/cart";
 const AddressPage = () => {
   const router = useRouter()
   const { updateAddress, address } = useContext(CartContext)
-  const { register, handleSubmit, formState: { errors }, setValue } = useForm<AddressType>()
+  const { register, handleSubmit, control, formState: { errors }, setValue } = useForm<AddressType>()
   const onSubmitAddress = async (data: AddressType) => {
     Cookies.set('address', JSON.stringify(data))
     updateAddress(data)
@@ -97,17 +97,24 @@ const AddressPage = () => {
               error={!!errors.city} helperText={errors.city?.message} />
           </Grid>
           <Grid item xs={12} sm={4}>
-            <FormControl fullWidth>
-              <Select
-                variant='filled'
-                label='País'
-                defaultValue={address?.country ?? "MEX"}
-                {...register('country')}>
-                {CONSTANTS.countries.map(({ code, name }) => (
-                  <MenuItem key={code} value={code}>{name}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <Controller
+              name="country"
+              control={control}
+              defaultValue={''}
+              render={({ field }) => (
+                <FormControl fullWidth>
+                  <Select
+                    variant='filled'
+                    label='País'
+                    {...field}
+                    // defaultValue={address?.country ?? "MEX"}
+                    {...register('country')}>
+                    {CONSTANTS.countries.map(({ code, name }) => (
+                      <MenuItem key={code} value={code}>{name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              )} />
           </Grid>
         </Grid>
         <Box sx={{ mt: 5 }} display='flex' justifyContent='center'>

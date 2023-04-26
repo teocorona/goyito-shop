@@ -5,6 +5,8 @@ import { FC, useEffect, useReducer } from 'react'
 import { goyitoApi } from '../../api';
 import { UserType } from '../../types/user';
 import { AuthContext, authReducer } from './'
+import { useSession, signOut } from "next-auth/react";
+
 
 export interface AuthState {
   isLoggedIn: boolean;
@@ -24,21 +26,28 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, AUTH_INITIAL_STATE)
   const router = useRouter()
 
-  useEffect(() => {
-    validateToken()
-  }, [])
+  const { data, status } = useSession()
 
-  const validateToken = async () => {
-    if(!Cookies.get('token')) return
-    try {
-      const { data } = await goyitoApi.get('/user/token');
-      const { token, user } = data
-      Cookies.set('token', token);
-      dispatch({ type: '[AUTH] - Login', payload: user })
-    } catch (error) {
-      Cookies.remove('token');
+  useEffect(() => {
+    if(status === 'authenticated'){
+      dispatch({type: '[AUTH] - Login', payload:data?.user as UserType})
     }
-  }
+  }, [status, data])
+
+  // useEffect(() => {
+  //   validateToken()
+  // }, [])
+  // const validateToken = async () => {
+  //   if (!Cookies.get('token')) return
+  //   try {
+  //     const { data } = await goyitoApi.get('/user/token');
+  //     const { token, user } = data
+  //     Cookies.set('token', token);
+  //     dispatch({ type: '[AUTH] - Login', payload: user })
+  //   } catch (error) {
+  //     Cookies.remove('token');
+  //   }
+  // }
 
   const loginUser = async (email: string, password: string): Promise<boolean> => {
     try {
@@ -77,11 +86,12 @@ export const AuthProvider: FC<Props> = ({ children }) => {
   }
 
   const logoutUser = async () => {
-      Cookies.remove('token');
-      Cookies.remove('cart');
-      Cookies.remove('address');
-      router.reload()
-      dispatch({ type: '[AUTH] - Logout'})
+    Cookies.remove('cart');
+    Cookies.remove('address');
+    signOut();
+    // Cookies.remove('token'); // ya lo hace next aiuth
+    // router.reload() //ya lo hace next auth
+    dispatch({ type: '[AUTH] - Logout' })
   }
 
   return (

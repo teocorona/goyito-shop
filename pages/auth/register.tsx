@@ -9,6 +9,8 @@ import ErrorOutline from "@mui/icons-material/ErrorOutline";
 import { validations } from "@utils";
 import { useRouter } from "next/router";
 import { AuthContext } from "@context";
+import { signIn,  getSession } from "next-auth/react";
+import { GetServerSideProps } from "next";
 interface FormData {
   name: string;
   email: string;
@@ -30,7 +32,8 @@ const Register = () => {
       setTimeout(() => setShowError(false), 5000);
       return
     }
-    router.replace('/')
+    // router.replace('/')
+    await signIn('credentials', {email, password})
   }
   return (
     <AuthLayout title='Ingresar'>
@@ -125,3 +128,19 @@ const Register = () => {
 }
 
 export default Register;
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession({req: ctx.req})
+  const { p = '/'} = ctx.query
+  if(session){
+    return{
+      redirect: {
+        destination: p.toString(),
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: { }
+  }
+}
