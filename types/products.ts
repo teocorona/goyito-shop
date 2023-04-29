@@ -1,7 +1,7 @@
 
 export interface ProductType {
   _id: string;
-  category: categoryType;
+  category: categoryType[];
   description: string;
   variant: variantType[];
   images: string[];

@@ -17,7 +17,7 @@ const ProductPage: NextPage<Props> = (props) => {
 
   const [tempCartProduct, setTempCartProduct] = useState<CartType>({
     _id: product._id,
-    category: product.category,
+    category: product.category[0],
     variant: product.variant[0],
     image: product.images[0],
     inStock: product.inStock,

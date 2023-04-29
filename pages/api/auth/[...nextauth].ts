@@ -1,4 +1,4 @@
-import NextAuth from 'next-auth'
+import NextAuth, { NextAuthOptions } from 'next-auth'
 import AppleProvider from 'next-auth/providers/apple'
 import FacebookProvider from 'next-auth/providers/facebook'
 import GoogleProvider from 'next-auth/providers/google'
@@ -7,7 +7,7 @@ import GithubProvider from "next-auth/providers/github"
 import Credentials from "next-auth/providers/credentials"
 import { checkUserEmailPassword, oAuthToDbUser } from '@database'
 
-export default NextAuth({
+export const authOptions: NextAuthOptions = {
   providers: [
     // AppleProvider({
     //   clientId: process.env.APPLE_ID,
@@ -42,7 +42,7 @@ export default NextAuth({
     //   from: 'NextAuth.js <no-reply@example.com>'
     // }),
   ],
-  pages:{
+  pages: {
     signIn: '/auth/login',
     newUser: '/auth/register'
   },
@@ -52,8 +52,8 @@ export default NextAuth({
     updateAge: 86400,
   },
   callbacks: {
-    async jwt({ token, account, user}) {
-      if(account){
+    async jwt({ token, account, user }) {
+      if (account) {
         token.accessToken = account.access_token
         switch (account.type) {
           case 'credentials':
@@ -74,5 +74,7 @@ export default NextAuth({
       return session
     }
   }
-})
+}
+
+export default NextAuth(authOptions)
 

@@ -14,7 +14,7 @@ const orderSchema = new Schema({
     image: { type: String, required: true },
     slug: { type: String, required: true },
   }],
-  shippingAdrress: {
+  shippingAddress: {
     fullName: { type: String, required: true },
     phone: { type: String, required: true },
     address: { type: String, required: true },
@@ -39,3 +39,4 @@ const orderSchema = new Schema({
 orderSchema.index({ title: 'text', tags: 'text' })
 
 export const Order: Model<OrderType> = mongoose.models.Order || model('Order', orderSchema)
+

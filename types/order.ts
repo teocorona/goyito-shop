@@ -1,10 +1,11 @@
 import { AddressType } from "./cart";
+import { categoryType, variantType } from "./products";
 import { UserType } from "./user";
 
 export interface OrderType {
-  _id: string;
+  _id?: string;
   user?: UserType | string;
-  orderItems: [OrderItemType];
+  orderItems: OrderItemType[];
   shippingAddress: AddressType;
   paymentResult?: string;
 
@@ -21,13 +22,20 @@ export interface OrderType {
 export interface OrderItemType {
   _id: string;
   title: string;
-  category: string;
-  variant: string;
+  category: categoryType;
+  variant: variantType;
   quantity: number;
   netWt: number;
   price: number;
   image: string;
   slug: string;
 }
+
+
+
+
+
+
+
 
 

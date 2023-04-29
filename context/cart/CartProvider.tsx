@@ -1,7 +1,8 @@
 import { FC, useEffect, useReducer, useRef } from 'react'
-import { CartType, AddressType } from '@types'
+import { CartType, AddressType, OrderType } from '@types'
 import { CartContext, cartReducer } from '.'
 import Cookie from 'js-cookie'
+import { goyitoApi } from '../../api';
 
 export interface CartState {
   cart: CartType[],
@@ -97,16 +98,38 @@ export const CartProvider: FC<Props> = ({ children }) => {
     })
     dispatch({ type: '[CART] - Update cart', payload: updatedProducts })
   };
-  
+
   const deleteCartItem = (product: CartType) => {
     console.log(product)
     const updatedProducts = state.cart.filter(item => (!(item.slug === product.slug && item.variant === product.variant)))
     dispatch({ type: '[CART] - Update cart', payload: updatedProducts })
   };
-  
-  const updateAddress= (address: AddressType) => {
+
+  const updateAddress = (address: AddressType) => {
     dispatch({ type: '[CART] - Update address', payload: address })
   };
+
+  const createOrder = async () => {
+    if(!state.address){
+      throw new Error("No address");
+    }
+    const body: OrderType = {
+      // _id: '',
+      orderItems: state.cart,
+      shippingAddress: state.address,
+      numberOfItems: state.numberOfItems,
+      subTotal: state.subTotal,
+      taxIva: state.taxIva,
+      taxIeps: state.taxIeps,
+      total: state.total,
+      isPaid: false
+    }
+    try {
+      const { data } = await goyitoApi.post('/orders', body)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <CartContext.Provider value={{
@@ -114,9 +137,12 @@ export const CartProvider: FC<Props> = ({ children }) => {
       addProductToCart,
       updateProductCartQuantity,
       deleteCartItem,
-      updateAddress
+      updateAddress,
+      createOrder
     }}>
       {children}
     </CartContext.Provider>
   )
 };
+
+
