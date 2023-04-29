@@ -3,6 +3,7 @@ import { CartType, AddressType, OrderType } from '@types'
 import { CartContext, cartReducer } from '.'
 import Cookie from 'js-cookie'
 import { goyitoApi } from '../../api';
+import axios from 'axios';
 
 export interface CartState {
   cart: CartType[],
@@ -109,8 +110,8 @@ export const CartProvider: FC<Props> = ({ children }) => {
     dispatch({ type: '[CART] - Update address', payload: address })
   };
 
-  const createOrder = async () => {
-    if(!state.address){
+  const createOrder = async (): Promise<{ hasError: boolean; message: string }> => {
+    if (!state.address) {
       throw new Error("No address");
     }
     const body: OrderType = {
@@ -125,9 +126,24 @@ export const CartProvider: FC<Props> = ({ children }) => {
       isPaid: false
     }
     try {
-      const { data } = await goyitoApi.post('/orders', body)
+      const { data } = await goyitoApi.post<OrderType>('/orders', body)
+      dispatch({ type: '[CART] - Order complete' })
+      return {
+        hasError: false,
+        message: data._id!
+      }
     } catch (error) {
       console.log(error)
+      if (axios.isAxiosError(error)) {
+        return {
+          hasError: true,
+          message: error.response?.data.message
+        }
+      }
+      return {
+        hasError: true,
+        message: 'Error no controlado, hable con el administrador'
+      }
     }
   }
 

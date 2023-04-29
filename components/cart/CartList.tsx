@@ -6,15 +6,18 @@ import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import { useContext } from "react"
 import { CartContext } from "@context"
 import { CartType } from "../../types/cart";
+import { OrderItemType } from '../../types/order';
 interface Props {
   editable?: boolean;
+  products?: OrderItemType[]
 }
 
-export const CartList: FC<Props> = ({ editable = false }) => {
+export const CartList: FC<Props> = ({ editable = false, products }) => {
   const { cart = [] } = useContext(CartContext)
+  const productList = products ? products : cart
   return (
     <>
-      {cart.map((p) =>  <CartProduct key={p.slug} product={p} editable={editable} />)}
+      {productList.map((p) =>  <CartProduct key={p.slug} product={p} editable={editable} />)}
     </>
   );
 };
@@ -54,7 +57,7 @@ const CartProduct: FC<CartProductProps> = ({ product, editable }) => {
             <ItemCounter
               currentValue={product.quantity}
               updatedQuantity={onUpdatedQuantity}
-              maxValue={product.inStock}
+              maxValue={product.inStock || 100}
             />
           ) : (
             <Typography variant='subtitle1'>

@@ -5,7 +5,7 @@ export interface CartType {
   category: categoryType;
   variant: variantType;
   image: string;
-  inStock: number;
+  inStock?: number;
   netWt: number;
   price: number;
   slug: string;

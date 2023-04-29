@@ -110,7 +110,7 @@ const AddressPage = () => {
                     // defaultValue={address?.country ?? "MEX"}
                     {...register('country')}>
                     {CONSTANTS.countries.map(({ code, name }) => (
-                      <MenuItem key={code} value={code}>{name}</MenuItem>
+                      <MenuItem key={code} value={name}>{name}</MenuItem>
                     ))}
                   </Select>
                 </FormControl>

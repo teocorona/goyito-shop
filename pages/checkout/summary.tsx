@@ -11,14 +11,23 @@ import { CartContext } from "../../context/cart"
 const SummaryPage = () => {
   const { address, numberOfItems, isLoaded, createOrder } = useContext(CartContext)
   const router = useRouter()
+  const [isPosting, setIsPosting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   useEffect(() => {
     if (!Cookies.get('address')) {
       router.push('/checkout/address')
     }
   }, [router])
 
-  const onCreateOrder = () => {
-    createOrder()
+  const onCreateOrder = async () => {
+    setIsPosting(true)
+    const { hasError, message } = await createOrder()
+    if (hasError) {
+      setIsPosting(false)
+      setErrorMessage(message)
+      return
+    }
+    router.replace(`/orders/${message}`)
   }
 
   if (!isLoaded) return (<></>)
@@ -60,16 +69,24 @@ const SummaryPage = () => {
                 </NextLink>
               </Box>
               <OrderSummary />
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
                 {address ?
-                  <Button
-                    color='secondary'
-                    className='circular-btn'
-                    fullWidth
-                    onClick={onCreateOrder}
-                  >
-                    Confirmar orden
-                  </Button>
+                  <>
+                    <Button
+                      color='secondary'
+                      className='circular-btn'
+                      fullWidth
+                      onClick={onCreateOrder}
+                      disabled={isPosting}
+                    >
+                      Confirmar orden
+                    </Button>
+                    <Chip
+                      color='error'
+                      label={errorMessage}
+                      sx={{ display: errorMessage ? 'flex' : 'none', mt: 2 }}
+                    />
+                  </>
                   :
                   <>
                     <NextLink href={`/checkout/address`} passHref prefetch={false}>

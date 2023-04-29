@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import { CartContext, UiContext } from '@context';
 import InputAdornment from '@mui/material/InputAdornment';
 import ClearOutlined from '@mui/icons-material/ClearOutlined';
+import Image from 'next/image';
+import goyitoLogo from '../../public/goyitoLogo.png'
 
 interface Props {
 
@@ -29,6 +31,7 @@ export const Navbar: FC<Props> = () => {
       <Toolbar>
         <NextLink href='/' passHref>
           <Link display='flex' alignItems='center' component='span'>
+            {/* <Image src={goyitoLogo} alt='goyito logo' height={40}/> */}
             <Typography variant='h6'>Goyito |</Typography>
             <Typography sx={{ ml: 0.5 }}>Shop</Typography>
           </Link>
