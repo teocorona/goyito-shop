@@ -4,20 +4,33 @@ import { Box, Button, Card, CardContent, Chip, Divider, Grid, Link, Typography }
 import Cookies from "js-cookie"
 import NextLink from "next/link"
 import { useRouter } from "next/router"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { CartContext } from "../../context/cart"
 
 
 const SummaryPage = () => {
-  const { address, numberOfItems, isLoaded } = useContext(CartContext)
+  const { address, numberOfItems, isLoaded, createOrder } = useContext(CartContext)
   const router = useRouter()
+  const [isPosting, setIsPosting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
   useEffect(() => {
-    if(!Cookies.get('address')){
+    if (!Cookies.get('address')) {
       router.push('/checkout/address')
     }
   }, [router])
-  
-  if(!isLoaded) return (<></>)
+
+  const onCreateOrder = async () => {
+    setIsPosting(true)
+    const { hasError, message } = await createOrder()
+    if (hasError) {
+      setIsPosting(false)
+      setErrorMessage(message)
+      return
+    }
+    router.replace(`/orders/${message}`)
+  }
+
+  if (!isLoaded) return (<></>)
   return (
     <ShopLayout title='Resumen de orden' pageDescription='Resumen de la compra'>
       <Typography variant='h1' component='h1' sx={{ m: 3 }}>
@@ -56,11 +69,24 @@ const SummaryPage = () => {
                 </NextLink>
               </Box>
               <OrderSummary />
-              <Box sx={{ mt: 3 }}>
+              <Box sx={{ mt: 3 }} display='flex' flexDirection='column'>
                 {address ?
-                  <Button color='secondary' className='circular-btn' fullWidth>
-                    Confirmar orden
-                  </Button>
+                  <>
+                    <Button
+                      color='secondary'
+                      className='circular-btn'
+                      fullWidth
+                      onClick={onCreateOrder}
+                      disabled={isPosting}
+                    >
+                      Confirmar orden
+                    </Button>
+                    <Chip
+                      color='error'
+                      label={errorMessage}
+                      sx={{ display: errorMessage ? 'flex' : 'none', mt: 2 }}
+                    />
+                  </>
                   :
                   <>
                     <NextLink href={`/checkout/address`} passHref prefetch={false}>

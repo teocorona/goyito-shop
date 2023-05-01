@@ -1,7 +1,9 @@
 import { FC, useEffect, useReducer, useRef } from 'react'
-import { CartType, AddressType } from '@types'
+import { CartType, AddressType, OrderType } from '@types'
 import { CartContext, cartReducer } from '.'
 import Cookie from 'js-cookie'
+import { goyitoApi } from '../../api';
+import axios from 'axios';
 
 export interface CartState {
   cart: CartType[],
@@ -97,16 +99,53 @@ export const CartProvider: FC<Props> = ({ children }) => {
     })
     dispatch({ type: '[CART] - Update cart', payload: updatedProducts })
   };
-  
+
   const deleteCartItem = (product: CartType) => {
     console.log(product)
     const updatedProducts = state.cart.filter(item => (!(item.slug === product.slug && item.variant === product.variant)))
     dispatch({ type: '[CART] - Update cart', payload: updatedProducts })
   };
-  
-  const updateAddress= (address: AddressType) => {
+
+  const updateAddress = (address: AddressType) => {
     dispatch({ type: '[CART] - Update address', payload: address })
   };
+
+  const createOrder = async (): Promise<{ hasError: boolean; message: string }> => {
+    if (!state.address) {
+      throw new Error("No address");
+    }
+    const body: OrderType = {
+      // _id: '',
+      orderItems: state.cart,
+      shippingAddress: state.address,
+      numberOfItems: state.numberOfItems,
+      subTotal: state.subTotal,
+      taxIva: state.taxIva,
+      taxIeps: state.taxIeps,
+      total: state.total,
+      isPaid: false
+    }
+    try {
+      const { data } = await goyitoApi.post<OrderType>('/orders', body)
+      dispatch({ type: '[CART] - Order complete' })
+      return {
+        hasError: false,
+        message: data._id!
+      }
+    } catch (error) {
+      console.log(error)
+      if (axios.isAxiosError(error)) {
+        return {
+          hasError: true,
+          message: error.response?.data.message
+        }
+      }
+      return {
+        hasError: true,
+        message: 'Error no controlado, hable con el administrador'
+      }
+    }
+  }
 
   return (
     <CartContext.Provider value={{
@@ -114,9 +153,12 @@ export const CartProvider: FC<Props> = ({ children }) => {
       addProductToCart,
       updateProductCartQuantity,
       deleteCartItem,
-      updateAddress
+      updateAddress,
+      createOrder
     }}>
       {children}
     </CartContext.Provider>
   )
 };
+
+
