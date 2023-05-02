@@ -8,6 +8,7 @@ import { getServerSession } from "next-auth"
 import { getOrderById } from "../../database/dbOrders"
 import { OrderType } from "../../types/order"
 import { authOptions } from "../api/auth/[...nextauth]"
+import { PayPalButtons } from "@paypal/react-paypal-js"
 
 interface Props {
   order: OrderType
@@ -55,16 +56,35 @@ const OrderPage: NextPage<Props> = ({ order }) => {
               <Box sx={{ mt: 3 }} flex='flex' flexDirection='column'>
                 {order.isPaid ? (
                   <Chip
-                    sx={{ my: 2, width:'100%' }}
+                    sx={{ my: 2, width: '100%' }}
                     label='Orden Pagada'
                     variant='outlined'
                     color="success"
                     icon={<CreditScoreOutlined />}
                   />
                 ) : (
-                  <Button color='secondary' className='circular-btn' fullWidth>
-                    Pagar
-                  </Button>
+                  <PayPalButtons
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        purchase_units: [
+                          {
+                            amount: {
+                              value: order.total.toString(),
+                              // currency_code: "MXN"
+                            },
+
+                          },
+                        ],
+                      });
+                    }}
+                    onApprove={(data, actions) => {
+                      return actions.order!.capture().then((details) => {
+                        console.log({details})
+                        const name = details.payer.name!.given_name;
+                        alert(`Transaction completed by ${name}`);
+                      });
+                    }}
+                  />
                 )}
               </Box>
             </CardContent>
