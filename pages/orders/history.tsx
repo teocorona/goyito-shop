@@ -23,6 +23,7 @@ const columns: GridColDef[] = [
         : <Chip color='error' label='No Pagada' variant='outlined' />)
     },
   },
+  { field: 'total', headerName: 'Total', width: 100 },
   {
     field: 'order',
     headerName: 'Ver Orden',
@@ -49,12 +50,13 @@ interface Props {
   orders: OrderType[]
 }
 
-const HistoryPage: NextPage<Props> = ({orders}) => {
+const HistoryPage: NextPage<Props> = ({ orders }) => {
   const rows = orders.map((order, index) => ({
-    id: index+1,
+    id: index + 1,
     paid: order.isPaid,
     fullName: order.shippingAddress.fullName,
-    order: order._id
+    order: order._id,
+    total: `$ ${order.total}`,
   }))
   return (
     <ShopLayout title='Historial de ordenes' pageDescription='Historial de ordenes del cliente' >
@@ -75,10 +77,10 @@ const HistoryPage: NextPage<Props> = ({orders}) => {
 
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session :any = await getServerSession(req, res, authOptions)
-  if(!session){
+  const session: any = await getServerSession(req, res, authOptions)
+  if (!session) {
     return {
-      redirect:{
+      redirect: {
         destination: '/auth/login?p=/orders/history',
         permanent: false
       }

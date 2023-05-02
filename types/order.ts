@@ -17,6 +17,8 @@ export interface OrderType {
 
   isPaid: boolean;
   paidAt?: string;
+
+  transactionId?: string;
 }
 
 export interface OrderItemType {
