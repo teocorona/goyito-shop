@@ -2,20 +2,53 @@ import { CartList, OrderSummary } from "@components/cart"
 import { ShopLayout } from "@components/layouts"
 import CreditScoreOutlined from "@mui/icons-material/CreditScoreOutlined"
 import CreditCardOffOutlined from "@mui/icons-material/CreditCardOffOutlined"
-import { Box, Button, Card, CardContent, Chip, Divider, Grid, Link, Typography } from "@mui/material"
+import { Box, Button, Card, CardContent, Chip, CircularProgress, Divider, Grid, Link, Typography } from "@mui/material"
 import { GetServerSideProps, NextPage } from 'next'
 import { getServerSession } from "next-auth"
 import { getOrderById } from "../../database/dbOrders"
 import { OrderType } from "../../types/order"
 import { authOptions } from "../api/auth/[...nextauth]"
 import { PayPalButtons } from "@paypal/react-paypal-js"
+import { goyitoApi } from "../../api"
+import { useRouter } from "next/router"
+import { useState } from "react"
 
 interface Props {
   order: OrderType
 }
 
+type OrderResponseBody = {
+  id: string;
+  status:
+  | "CREATED"
+  | "SAVED"
+  | "APPROVED"
+  | "VOIDED"
+  | "COMPLETED"
+  | "PAYER_ACTION_REQUIRED";
+};
+
 const OrderPage: NextPage<Props> = ({ order }) => {
   const totals = { numberOfItems: order.numberOfItems, subTotal: order.subTotal, taxIva: order.taxIva, taxIeps: order.taxIeps, total: order.total }
+  const router = useRouter()
+  const [isPaying, setIsPaying] = useState(false)
+  const onOrderCompleted = async (details: OrderResponseBody) => {
+    if (details.status !== 'COMPLETED') {
+      console.log('no payment')
+      return
+    }
+    setIsPaying(true)
+    try {
+      const { data } = await goyitoApi.post(`/orders/pay`, {
+        transactionId: details.id,
+        orderId: order._id
+      })
+      router.reload();
+    } catch (error) {
+      setIsPaying(false)
+      console.log(error)
+    }
+  }
   return (
     <ShopLayout title={`Orden ${order._id}`} pageDescription={`Resumen de la orden numero ${order._id}`}>
       <Typography variant='h1' component='h1' sx={{ m: 3 }}>Ordern {order._id}</Typography>
@@ -54,38 +87,49 @@ const OrderPage: NextPage<Props> = ({ order }) => {
               <Divider sx={{ my: 1 }} />
               <OrderSummary totals={totals} />
               <Box sx={{ mt: 3 }} flex='flex' flexDirection='column'>
-                {order.isPaid ? (
-                  <Chip
-                    sx={{ my: 2, width: '100%' }}
-                    label='Orden Pagada'
-                    variant='outlined'
-                    color="success"
-                    icon={<CreditScoreOutlined />}
-                  />
-                ) : (
-                  <PayPalButtons
-                    createOrder={(data, actions) => {
-                      return actions.order.create({
-                        purchase_units: [
-                          {
-                            amount: {
-                              value: order.total.toString(),
-                              // currency_code: "MXN"
-                            },
+                <Box
+                  sx={{ display: isPaying ? 'flex' : 'none' }}
+                  display='flex'
+                  justifyContent='center'
+                  className='fadeIn'
+                >
+                  <CircularProgress />
+                </Box>
+                <Box sx={{ display: isPaying ? 'none' : 'flex', flex: 1}}  flexDirection='column'>
+                  {order.isPaid ? (
+                    <Chip
+                      sx={{ my: 2, width: '100%' }}
+                      label='Orden Pagada'
+                      variant='outlined'
+                      color="success"
+                      icon={<CreditScoreOutlined />}
+                    />
+                  ) : (
+                    <PayPalButtons
+                      createOrder={(data, actions) => {
+                        return actions.order.create({
+                          purchase_units: [
+                            {
+                              amount: {
+                                // currency_code: "MXN",
+                                value: order.total.toString(),
+                              },
 
-                          },
-                        ],
-                      });
-                    }}
-                    onApprove={(data, actions) => {
-                      return actions.order!.capture().then((details) => {
-                        console.log({details})
-                        const name = details.payer.name!.given_name;
-                        alert(`Transaction completed by ${name}`);
-                      });
-                    }}
-                  />
-                )}
+                            },
+                          ],
+                        });
+                      }}
+                      onApprove={(data, actions) => {
+                        return actions.order!.capture().then((details) => {
+                          onOrderCompleted(details)
+                          // console.log({details})
+                          // const name = details.payer.name!.given_name;
+                          // alert(`Transaction completed by ${name}`);
+                        });
+                      }}
+                    />
+                  )}
+                </Box>
               </Box>
             </CardContent>
           </Card>
