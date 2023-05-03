@@ -10,6 +10,7 @@ import VpnKeyOutlined from "@mui/icons-material/VpnKeyOutlined"
 import { FC, useContext, useState } from "react"
 import { useRouter } from "next/router"
 import { AuthContext, UiContext } from '@context'
+import DashboardOutlined from "@mui/icons-material/DashboardOutlined"
 
 interface Props {
 
@@ -145,6 +146,12 @@ export const SideMenu: FC<Props> = () => {
               <Divider />
               <ListSubheader>Admin Panel</ListSubheader>
 
+              <ListItem button onClick={() => navigateTo('/admin')}>
+                <ListItemIcon>
+                  <DashboardOutlined />
+                </ListItemIcon>
+                <ListItemText primary={'Dashboard'} />
+              </ListItem>
               <ListItem button>
                 <ListItemIcon>
                   <CategoryOutlined />
