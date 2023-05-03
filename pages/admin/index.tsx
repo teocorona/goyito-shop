@@ -10,7 +10,7 @@ import AccessTimeOutlined from '@mui/icons-material/AccessTimeOutlined';
 import CancelPresentationOutlined from '@mui/icons-material/CancelPresentationOutlined';
 import CategoryOutlined from '@mui/icons-material/CategoryOutlined';
 import ProductionQuantityLimitsOutlined from '@mui/icons-material/ProductionQuantityLimitsOutlined';
-import { GetServerSideProps } from 'next'
+// import { GetServerSideProps } from 'next'
 import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import useSWR from 'swr'
@@ -51,49 +51,49 @@ const DashboardPage: NextPage<Props> = () => {
         <SummaryTile
           title={data?.numberOfOrders || 'Error'}
           subtitle='Ordenes totales'
-          icon={<CreditCardOffOutlined color='secondary' sx={{ fontSize: 80 }} />}
+          icon={<CreditCardOffOutlined color='secondary' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={data?.paidOrders || 'Error'}
           subtitle='Ordenes pagadas'
-          icon={<AttachMoneyOutlined color='success' sx={{ fontSize: 80 }} />}
+          icon={<AttachMoneyOutlined color='success' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={data?.notPaidOrders || 'Error'}
           subtitle='Ordenes pendientes'
-          icon={<CreditCardOffOutlined color='error' sx={{ fontSize: 80 }} />}
+          icon={<CreditCardOffOutlined color='error' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={data?.numberOfClients || 'Error'}
           subtitle='Clientes'
-          icon={<GroupOutlined color='primary' sx={{ fontSize: 80 }} />}
+          icon={<GroupOutlined color='primary' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={data?.numberOfProducts || 'Error'}
           subtitle='Productos'
-          icon={<CategoryOutlined color='primary' sx={{ fontSize: 80 }} />}
+          icon={<CategoryOutlined color='primary' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={data?.productsWithNoInventory || 'Error'}
           subtitle='Sin Stock'
-          icon={<CancelPresentationOutlined color='error' sx={{ fontSize: 80 }} />}
+          icon={<CancelPresentationOutlined color='error' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={data?.productsWithLowInventory || 'Error'}
           subtitle='Bajo inventario'
-          icon={<ProductionQuantityLimitsOutlined color='warning' sx={{ fontSize: 80 }} />}
+          icon={<ProductionQuantityLimitsOutlined color='warning' sx={{ fontSize: 64 }} />}
         />
 
         <SummaryTile
           title={refreshIn}
           subtitle='Actualizacion en'
-          icon={<AccessTimeOutlined color='secondary' sx={{ fontSize: 80 }} />}
+          icon={<AccessTimeOutlined color='secondary' sx={{ fontSize: 64 }} />}
         />
 
       </Grid>
@@ -102,23 +102,24 @@ const DashboardPage: NextPage<Props> = () => {
 };
 
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session: any = await getServerSession(req, res, authOptions)
-  if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permanent: false
-      }
-    }
-  }
+// export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+//   const session: any = await getServerSession(req, res, authOptions)
+//   console.log(session.user.role)
+//   if (session.user.role !== 'admin') {
+//     return {
+//       redirect: {
+//         destination: '/',
+//         permanent: false
+//       }
+//     }
+//   }
 
-  return {
-    props: {
+//   return {
+//     props: {
 
-    }
-  }
-}
+//     }
+//   }
+// }
 
 
 export default DashboardPage
