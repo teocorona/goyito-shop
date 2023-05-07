@@ -1,5 +1,5 @@
 import { db } from "@database"
-import { Product } from "@models"
+import { Product } from "../models/Product"
 import { ProductType } from "../types/products"
 
 
