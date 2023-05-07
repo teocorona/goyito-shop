@@ -40,5 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-/public/products
+# /public/products
 # /database/products.ts
