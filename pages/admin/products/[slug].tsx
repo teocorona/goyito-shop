@@ -8,7 +8,7 @@ import UploadOutlined from '@mui/icons-material/UploadOutlined';
 import { getProductBySlug } from '@database';
 import { Box, Button, capitalize, Card, CardActions, CardMedia, Checkbox, Chip, Divider, FormControl, FormControlLabel, FormGroup, FormLabel, Grid, ListItem, Paper, Radio, RadioGroup, TextField } from '@mui/material';
 import { useForm } from 'react-hook-form';
-import { goyitoApi } from '../../../api';
+import { goyitoApi } from '../../../axios-api';
 import { Product } from '../../../models/Product';
 import { useRouter } from 'next/router';
 

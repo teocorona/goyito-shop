@@ -5,7 +5,7 @@ import { DataGrid, GridRowsProp, GridColDef, GridRenderCellParams } from '@mui/x
 import { Grid, MenuItem, Select } from '@mui/material'
 import PeopleOutline from '@mui/icons-material/PeopleOutline'
 import { AdminLayout } from '@components/layouts'
-import { goyitoApi } from '../../api';
+import { goyitoApi } from '../../axios-api';
 import { roleType, UserType } from '@types';
 
 const UsersPage: NextPage = () => {

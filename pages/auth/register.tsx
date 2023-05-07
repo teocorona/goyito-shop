@@ -4,7 +4,7 @@ import axios from "axios";
 import NextLink from "next/link";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import { goyitoApi } from "../../api";
+import { goyitoApi } from "../../axios-api";
 import ErrorOutline from "@mui/icons-material/ErrorOutline";
 import { validations } from "@utils";
 import { useRouter } from "next/router";

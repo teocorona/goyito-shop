@@ -2,7 +2,7 @@ import { FC, useEffect, useReducer, useRef } from 'react'
 import { CartType, AddressType, OrderType } from '@types'
 import { CartContext, cartReducer } from '.'
 import Cookie from 'js-cookie'
-import { goyitoApi } from '../../api';
+import { goyitoApi } from '../../axios-api';
 import axios from 'axios';
 
 export interface CartState {

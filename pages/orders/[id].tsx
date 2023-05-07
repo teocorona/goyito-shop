@@ -9,7 +9,7 @@ import { getOrderById } from "../../database/dbOrders"
 import { OrderType } from "../../types/order"
 import { authOptions } from "../api/auth/[...nextauth]"
 import { PayPalButtons } from "@paypal/react-paypal-js"
-import { goyitoApi } from "../../api"
+import { goyitoApi } from "../../axios-api"
 import { useRouter } from "next/router"
 import { useState } from "react"
 

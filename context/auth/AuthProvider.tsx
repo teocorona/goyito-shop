@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useReducer } from 'react'
-import { goyitoApi } from '../../api';
+import { goyitoApi } from '../../axios-api';
 import { UserType } from '../../types/user';
 import { AuthContext, authReducer } from './'
 import { useSession, signOut } from "next-auth/react";
